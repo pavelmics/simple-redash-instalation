@@ -1,7 +1,7 @@
 version: '2'
 services:
   server:
-    image: redash/redash:latest
+    image: redash/redash:6.0.0.b8537
     command: server
     network_mode: host
     container_name: redash-web
@@ -13,11 +13,11 @@ services:
       PYTHONUNBUFFERED: 0
       REDASH_LOG_LEVEL: "INFO"
       REDASH_REDIS_URL: "redis://localhost:6379/0"
-      REDASH_DATABASE_URL: "postgresql://user:password@localhost/redash"
-      REDASH_COOKIE_SECRET: veryverysecret
+      REDASH_DATABASE_URL: "postgresql://user:password@localhost/database-name"
+      REDASH_COOKIE_SECRET: CHANGE-ME
       REDASH_WEB_WORKERS: 1
   worker:
-    image: redash/redash:latest
+    image: redash/redash:6.0.0.b8537
     network_mode: host
     command: scheduler
     container_name: redash-worker
@@ -25,8 +25,8 @@ services:
       PYTHONUNBUFFERED: 0
       REDASH_LOG_LEVEL: "INFO"
       REDASH_REDIS_URL: "redis://localhost:6379/0"
-      REDASH_DATABASE_URL: "postgresql://user:password@localhost/redash"
-      QUEUES: "queries,scheduled_queries,celery"
+      REDASH_DATABASE_URL: "postgresql://user:password@localhost/database-name"
+      QUEUES: "queries,scheduled_queries,celery,schemas"
       WORKERS_COUNT: 1
   redis:
     image: redis:3.0-alpine
